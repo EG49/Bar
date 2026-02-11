@@ -11,15 +11,9 @@
 
 </head>
 <body>
-  <div class="app">
-    <header class="topbar">
-      <button class="botonNegro">
-        {{ user.nombre if user else "Usuario" }}
-      </button>
-    </header>
-  </div>  
+  
   <!-- Sidebar -->
-  <div class="sidebar">
+  <aside class="sidebar">
     <nav>
       <a href="/inicio" class="botonNegro">Inicio</a>
       <a href="/vender" class="botonNegro">Vender</a>
@@ -33,7 +27,14 @@
       <a href="/login"class="botonNegro botonSalir" >Salir</a>
       
     </nav>
-  </div>
+  </aside>
+  <div class="app">
+    <header class="topbar">
+      <button class="botonNegro">
+        {{ user.nombre if user else "Usuario" }}
+      </button>
+    </header>
+  </div>  
 
   <!-- Contenido principal -->
   <main class="content">
