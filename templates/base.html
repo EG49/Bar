@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Bar{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nata+Sans:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <button class="botonNegro">
+        {{ user.nombre if user else "Usuario" }}
+      </button>
+    </header>
+  </div>  
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <nav>
+      <a href="/inicio" class="botonNegro">Inicio</a>
+      <a href="/vender" class="botonNegro">Vender</a>
+      <a href="/nuevosClientes" class="botonNegro">Nuevos Clientes</a>
+      <a href="/facturas" class="botonNegro">Facturas</a>
+      <a href="/productos" class="botonNegro">Productos</a>
+      <a href="/cuentas" class="botonNegro">Cuentas</a>
+      <a href="/cobrar" class="botonNegro">Cobrar</a>
+      <a href="/pedidos"class="botonNegro">Pedidos</a>
+      </br></br></br></br>
+      <a href="/login"class="botonNegro botonSalir" >Salir</a>
+      
+    </nav>
+  </div>
+
+  <!-- Contenido principal -->
+  <main class="content">
+    {% block content %}{% endblock %}
+  </main>
+
+  
+
+</body>
+</html>
