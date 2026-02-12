@@ -6,12 +6,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nata+Sans:wght@100..900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="reset.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
 </head>
 <body>
-  
+
   <!-- Sidebar -->
   <aside class="sidebar">
     <nav>
@@ -22,26 +22,28 @@
       <a href="/productos" class="botonNegro">Productos</a>
       <a href="/cuentas" class="botonNegro">Cuentas</a>
       <a href="/cobrar" class="botonNegro">Cobrar</a>
-      <a href="/pedidos"class="botonNegro">Pedidos</a>
-      </br></br></br></br>
-      <a href="/login"class="botonNegro botonSalir" >Salir</a>
-      
+      <a href="/pedidos" class="botonNegro">Pedidos</a>
+      <br><br><br><br>
+      <a href="{{ url_for('login') }}" class="botonNegro botonSalir">Salir</a>
+
     </nav>
   </aside>
+
+  <!-- Contenedor principal -->
   <div class="app">
+
     <header class="topbar">
       <button class="botonNegro">
         {{ user.nombre if user else "Usuario" }}
       </button>
     </header>
-  </div>  
 
-  <!-- Contenido principal -->
-  <main class="content">
-    {% block content %}{% endblock %}
-  </main>
+    <main class="content">
+      {% block content %}{% endblock %}
+    </main>
 
-  
+  </div>
 
 </body>
+
 </html>

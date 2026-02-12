@@ -6,21 +6,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nata+Sans:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="reset.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
 </head>
-<body class="login-body">
+<body class="loginBody">
 
-    <div class="login-container">
+    <div class="loginContainer">
 
-        <div class="login-card">
+        <div class="loginCard">
 
-            <img src="images/logo_login.png" class="login-logo">
-            <br><br><br>
-            <h2>Iniciar Sesión</h2>
-            <br><br><br>
+            <img src="{{ url_for('static', filename='images/logoLogin.png') }}" id="loginLogo">
+            <br><br><br><br><br>
 
-            <form method="POST" class="login-input">
+            <form method="POST" class="loginInput">
                 <input type="text" name="username" placeholder="Usuario" required>
                 <input type="password" name="password" placeholder="Contraseña" required>
                 <button type="submit" class="botonNegro" id="botonLogin">Ingresar</button>
