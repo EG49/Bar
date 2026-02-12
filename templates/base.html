@@ -15,16 +15,49 @@
   <!-- Sidebar -->
   <aside class="sidebar">
     <nav>
-      <a href="/inicio" class="botonNegro">Inicio</a>
-      <a href="/vender" class="botonNegro">Vender</a>
-      <a href="/nuevosClientes" class="botonNegro">Nuevos Clientes</a>
-      <a href="/facturas" class="botonNegro">Facturas</a>
-      <a href="/productos" class="botonNegro">Productos</a>
-      <a href="/cuentas" class="botonNegro">Cuentas</a>
-      <a href="/cobrar" class="botonNegro">Cobrar</a>
-      <a href="/pedidos" class="botonNegro">Pedidos</a>
-      <br><br><br><br>
-      <a href="{{ url_for('login') }}" class="botonNegro botonSalir">Salir</a>
+      <a href="{{ url_for('inicio') }}" 
+           class="botonNegro {{ 'activo' if request.endpoint == 'inicio' else '' }}">
+           Inicio
+        </a>
+
+        <a href="{{ url_for('vender') }}" 
+           class="botonNegro {{ 'activo' if request.endpoint == 'vender' else '' }}">
+           Vender
+        </a>
+
+        <a href="{{ url_for('nuevosClientes') }}" 
+           class="botonNegro {{ 'activo' if request.endpoint == 'nuevosClientes' else '' }}">
+           Nuevos Clientes
+        </a>
+
+        <a href="{{ url_for('facturas') }}" 
+           class="botonNegro {{ 'activo' if request.endpoint == 'facturas' else '' }}">
+           Facturas
+        </a>
+
+        <a href="{{ url_for('productos') }}" 
+           class="botonNegro {{ 'activo' if request.endpoint == 'productos' else '' }}">
+           Productos
+        </a>
+
+        <a href="{{ url_for('cuentas') }}" 
+           class="botonNegro {{ 'activo' if request.endpoint == 'cuentas' else '' }}">
+           Cuentas
+        </a>
+
+        <a href="{{ url_for('cobrar') }}" 
+           class="botonNegro {{ 'activo' if request.endpoint == 'cobrar' else '' }}">
+           Cobrar
+        </a>
+
+        <a href="{{ url_for('pedidos') }}" 
+           class="botonNegro {{ 'activo' if request.endpoint == 'pedidos' else '' }}">
+           Pedidos
+        </a>
+
+        <a href="{{ url_for('login') }}" class="botonNegro botonSalir">
+            Salir
+        </a>
 
     </nav>
   </aside>
