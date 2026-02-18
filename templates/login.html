@@ -19,7 +19,7 @@
             <img src="{{ url_for('static', filename='images/logoLogin.png') }}" id="loginLogo">
             <br><br><br><br><br>
 
-            <form method="POST" class="loginInput">
+            <form method="POST" action="{{ url_for('process_login') }}" class="loginInput">
                 <input type="text" name="username" placeholder="Usuario" required>
                 <input type="password" name="password" placeholder="Contraseña" required>
                 <button type="submit" class="botonNegro" id="botonLogin">Ingresar</button>
