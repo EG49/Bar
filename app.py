@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for, session 
 from  config import get_connection
 from functools import wraps
+from email_service import enviar_correo
+from datetime import datetime
 
 def login_required(f):
     @wraps(f)
@@ -59,15 +61,17 @@ def show_login():
 
 @app.route("/login", methods=["POST"])
 def process_login():
+
     username = request.form.get("username")
     password = request.form.get("password")
 
     try:
+
         conn = get_connection()
         cur = conn.cursor()
 
         query = """
-            SELECT id, username, rol, debe_cambiar_password, otp_activo
+            SELECT id, username, email, rol, debe_cambiar_password, otp_activo
             FROM usuarios
             WHERE username = %s
               AND estado = TRUE
@@ -78,22 +82,61 @@ def process_login():
         user = cur.fetchone()
 
         if user:
+
             session["user_id"] = user[0]
             session["username"] = user[1]
-            session["rol"] = user[2]
+            session["rol"] = user[3]
 
+            email = user[2]
+
+            # actualizar último login
             cur.execute(
                 "UPDATE usuarios SET ultimo_login = NOW() WHERE id = %s;",
                 (user[0],)
             )
+
             conn.commit()
+
+            # enviar correo de notificación
+            ip = request.remote_addr
+            user_agent = request.headers.get('User-Agent')
+            sistema, navegador = detectar_dispositivo(user_agent)
+            mensaje = f"""
+            <h2>🚨 Alerta de seguridad 🚨</h2>
+
+            <p>Hola {user[1]},</p>
+
+            <p>Detectamos un <b>nuevo inicio de sesión</b> en tu cuenta.</p>
+
+            <hr>
+
+            <p><b>👤 Usuario:</b> {user[1]}</p>
+            <p><b>📅 Fecha:</b> {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</p>
+            <p><b>🌐 IP:</b> {ip}</p>
+            <p><b>{sistema}</b></p>
+            <p><b>{navegador}</b></p>
+
+            <hr>
+
+            <p>✅ Si fuiste tú, puedes ignorar este mensaje.</p>
+
+            <p style="color:red;">
+            ⚠️ Si no reconoces esta actividad, cambia tu contraseña inmediatamente.
+            </p>
+
+            <p>— Sistema de prueba Evans</p>
+            """
+
+            enviar_correo(
+                email,
+                "Inicio de sesión detectado",
+                mensaje
+            )
 
             cur.close()
             conn.close()
 
             return redirect("/inicio")
-
-
 
         cur.close()
         conn.close()
@@ -102,6 +145,38 @@ def process_login():
 
     except Exception as e:
         return str(e), 500
+def detectar_dispositivo(user_agent):
+
+    ua = user_agent.lower()
+
+    # Sistema / dispositivo
+    if "windows" in ua:
+        sistema = "💻 Windows"
+    elif "mac os" in ua or "macintosh" in ua:
+        sistema = "💻 Mac"
+    elif "linux" in ua:
+        sistema = "💻 Linux"
+    elif "android" in ua:
+        sistema = "📱 Android"
+    elif "iphone" in ua or "ipad" in ua:
+        sistema = "📱 iPhone / iPad"
+    else:
+        sistema = "💻 Dispositivo desconocido"
+
+    # Navegador
+    if "chrome" in ua and "edg" not in ua:
+        navegador = "🌐 Chrome"
+    elif "firefox" in ua:
+        navegador = "🌐 Firefox"
+    elif "safari" in ua and "chrome" not in ua:
+        navegador = "🌐 Safari"
+    elif "edg" in ua:
+        navegador = "🌐 Edge"
+    else:
+        navegador = "🌐 Navegador desconocido"
+
+    return sistema, navegador
+
 
 #a
 # -----------------------
