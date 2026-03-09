@@ -17,10 +17,8 @@ app = Flask(__name__)
 print(app.url_map)
 app.secret_key = "super_secret_key"
 
-@app.context_processor
-def inject_user():
-    user = {"nombre": "Evans"}  # solo para prueba
-    return dict(user=user)
+
+
 @app.route("/inicio")
 @login_required
 def inicio():
@@ -71,7 +69,7 @@ def process_login():
         cur = conn.cursor()
 
         query = """
-            SELECT id, username, email, rol, debe_cambiar_password, otp_activo
+            SELECT id, username, email, rol, debe_cambiar_password, otp_activo, nombre
             FROM usuarios
             WHERE username = %s
               AND estado = TRUE
@@ -83,9 +81,12 @@ def process_login():
 
         if user:
 
-            session["user_id"] = user[0]
-            session["username"] = user[1]
-            session["rol"] = user[3]
+            session["user"] = {
+                                "id": user[0],
+                                "username": user[1],
+                                "nombre": user[6],
+                                "rol": user[3]
+                            }
 
             email = user[2]
 
@@ -145,6 +146,12 @@ def process_login():
 
     except Exception as e:
         return str(e), 500
+
+@app.context_processor
+def inject_user():
+    print(session.get("user"))
+    return dict(user=session.get("user"))
+
 def detectar_dispositivo(user_agent):
 
     ua = user_agent.lower()
